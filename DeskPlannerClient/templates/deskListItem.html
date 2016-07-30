@@ -1,0 +1,8 @@
+<h4>Desk List</h4> 
+<table>
+<% _.each(personlist, function(story) { %>
+
+	<tr><td><a href="#/desk/<%=desk.get("_id") %>"> <%=desk.get("building") %>-<%=desk.get("room") %>-<%=desk.get("bay") %>-<%=desk.get("desk") %> </a></td><td><button class="edit">Edit</button></td><td><button class="delete">Delete</button></td></tr>
+
+<%});%>
+</table>

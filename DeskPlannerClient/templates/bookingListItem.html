@@ -1,0 +1,8 @@
+<h4>Booking List</h4> 
+<table>
+<% _.each(personlist, function(story) { %>
+
+	<tr><td><a href="#/booking/<%=booking.get("_id") %>"> <%=booking.get("personId")-<%=booking.get("deskId") %> </a></td><td><button class="edit">Edit</button></td><td><button class="delete">Delete</button></td></tr>
+
+<%});%>
+</table>
