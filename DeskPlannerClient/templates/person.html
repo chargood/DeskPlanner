@@ -1,7 +1,14 @@
 <h4><%=person.get("name") %></h4> 
 
 <p>Status: <%=person.get("status") %></p>
-<p>Manager/Supervisor: <%=person.get("manager") %></p>
+
+<p>Manager/Supervisor: 
+<%if(app.personList.get(person.get("manager"))){%>
+<%="<a href='./#/person/"+person.get("manager")+"'>"+app.personList.get(person.get("manager")).get("name")+"</a>"%>
+<%}else{%>
+<%=person.get("manager")%>
+<%}%>
+</p>
 <p>email: <%=person.get("contact") %></p>
 <p>Notes: <%=person.get("notes") %></p>
 

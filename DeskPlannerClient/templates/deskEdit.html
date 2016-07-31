@@ -1,0 +1,14 @@
+<%if(desk==false){%>
+<h4>Creating New Desk</h4> 
+<p>Desk List: <input type="text" id="list"></p>
+<p>Bay: <input type="text" id="bay"></p>
+<p>Desk: <input type="text" id="desk"></p>
+<button id="save">Save</button>
+<%}else{%>
+<h4>Editing Desk <%=desk.get("list") %>-<%=desk.get("bay") %>-<%=desk.get("desk") %></h4> 
+<p>Desk List: <input type="text" id="list" value="<%=desk.get("list") %>"></p>
+<p>Bay: <input type="text" id="bay" value="<%=desk.get("bay") %>"></p>
+<p>Desk: <input type="text" id="desk" value="<%=desk.get("desk") %>"></p>
+<button id="save">Save</button>
+<%}%>
+

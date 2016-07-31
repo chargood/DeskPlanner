@@ -76,32 +76,33 @@ router.get('/', function(req, res) {
 	
 	.put(function(req, res) {
 
-        CoreSchema.Person.findById(req.params.person_id, function(err, person) {
-
+        CoreSchema.Person.update({'_id':req.params.person_id}, req.body, function(err, person) {
             if (err)
                 res.send(err);
-
-            person = new CoreSchema.Person(req.body)
-
-            person.save(function(err) {
-                if (err)
-                    res.send(err);
-
-                res.json({ message: 'Person updated!' });
-            });
-
+	
+			res.json(person);
         });
     })
 	
 	.delete(function(req, res) {
-        Person.remove({
-            _id: req.params.person_id
-        }, function(err, person) {
+        
+		CoreSchema.Person.findById(req.params.person_id, function(err, person) {
+
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Successfully deleted' });
+            person.remove({
+				_id: req.params.person_id
+			}, function(err, person) {
+				if (err)
+					res.send(err);
+
+				res.json({ message: 'Successfully deleted' });
+			});
+
         });
+		
+		
     });
 	
 	///////
@@ -142,32 +143,35 @@ router.get('/', function(req, res) {
 	
 	.put(function(req, res) {
 
-        CoreSchema.Desk.findById(req.params.desk_id, function(err, desk) {
+        CoreSchema.Desk.update({'_id':req.params.desk_id}, req.body, function(err, desk) {
 
             if (err)
                 res.send(err);
-
-            desk = new CoreSchema.Desk(req.body)
-
-            desk.save(function(err) {
-                if (err)
-                    res.send(err);
-
-                res.json({ message: 'Desk updated!' });
-            });
+	
+			res.json(desk);
 
         });
     })
 	
 	.delete(function(req, res) {
-        Desk.remove({
-            _id: req.params.desk_id
-        }, function(err, desk) {
+        
+		CoreSchema.Desk.findById(req.params.desk_id, function(err, desk) {
+
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Successfully deleted' });
+            desk.remove({
+				_id: req.params.person_id
+			}, function(err, desk) {
+				if (err)
+					res.send(err);
+
+				res.json({ message: 'Successfully deleted' });
+			});
+
         });
+		
+		
     });
 	
 	///////
@@ -208,32 +212,35 @@ router.get('/', function(req, res) {
 	
 	.put(function(req, res) {
 
-        CoreSchema.DeskMap.findById(req.params.deskmap_id, function(err, deskmap) {
+        CoreSchema.DeskMap.update({'_id':req.params.deskmap_id}, req.body, function(err, deskmap) {
 
             if (err)
                 res.send(err);
-
-            deskmap = new CoreSchema.DeskMap(req.body)
-
-            deskmap.save(function(err) {
-                if (err)
-                    res.send(err);
-
-                res.json({ message: 'DeskMap updated!' });
-            });
+	
+			res.json(deskmap);
 
         });
     })
 	
 	.delete(function(req, res) {
-        DeskMap.remove({
-            _id: req.params.deskmap_id
-        }, function(err, deskmap) {
+        
+		CoreSchema.DeskMap.findById(req.params.deskmap_id, function(err, deskmap) {
+
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Successfully deleted' });
+            deskmap.remove({
+				_id: req.params.person_id
+			}, function(err, deskmap) {
+				if (err)
+					res.send(err);
+
+				res.json({ message: 'Successfully deleted' });
+			});
+
         });
+		
+		
     });
 	
 	///////
@@ -274,32 +281,35 @@ router.get('/', function(req, res) {
 	
 	.put(function(req, res) {
 
-        CoreSchema.Booking.findById(req.params.booking_id, function(err, booking) {
+        CoreSchema.Booking.update({'_id':req.params.booking_id}, req.body, function(err, booking) {
 
             if (err)
                 res.send(err);
-
-            booking = new CoreSchema.Booking(req.body)
-
-            booking.save(function(err) {
-                if (err)
-                    res.send(err);
-
-                res.json({ message: 'Booking updated!' });
-            });
+	
+			res.json(booking);
 
         });
     })
 	
 	.delete(function(req, res) {
-        Booking.remove({
-            _id: req.params.booking_id
-        }, function(err, booking) {
+        
+		CoreSchema.Booking.findById(req.params.booking_id, function(err, booking) {
+
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Successfully deleted' });
+            booking.remove({
+				_id: req.params.person_id
+			}, function(err, booking) {
+				if (err)
+					res.send(err);
+
+				res.json({ message: 'Successfully deleted' });
+			});
+
         });
+		
+		
     });
 	
 	

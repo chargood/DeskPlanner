@@ -1,0 +1,56 @@
+<%if(booking==false){%>
+<h4>Creating New Booking</h4> 
+<p>Person: <select id="personId"> 
+<%app.personList.each(function(person){%>
+	<%= "<option value='"+person.get("id")+"'>"+person.get("name")+"</option>"%>
+<%})%>
+</select></p>
+<p>Desk: <select id="deskId"> 
+<%app.deskList.each(function(desk){%>
+	<%= "<option value='"+desk.get("id")+"'>"+desk.get("list")+"-"+desk.get("bay")+"-"+desk.get("desk")+"</option>"%>
+<%})%>
+</select></p>
+<p>Start Date: <div id="startDate" /></p>
+<p>End Date: <div id="endDate" /></p>
+<button id="save">Save</button>
+<%}else{%>
+<h4>Editing Booking <%=booking.get("id") %></h4> 
+<p>Person: <select id="personId"> 
+<%app.personList.each(function(p){%>
+	<%= "<option value='"+p.get("id")+"'"%>
+	<%if(p.get("id")==booking.get("personId")){%>
+		<%="selected='selected'"%>
+	<%}%>
+	<%=">"+p.get("name")+"</option>"%>
+<%})%>
+</select></p>
+
+<p>Desk: <select id="deskId"> 
+<%app.deskList.each(function(desk){%>
+	<%= "<option value='"+desk.get("id")+"'"%>
+	<%if(desk.get("id")==booking.get("deskId")){%>
+		<%="selected='selected'"%>
+	<%}%>
+	<%=">"+desk.get("list")+"-"+desk.get("bay")+"-"+desk.get("desk")+"</option>"%>
+<%})%>
+</select></p>
+<p>Start Date: <div id="startDate" /></p>
+<p>End Date: <div id="endDate" /></p>
+<p>Status: <select id="status"> 
+<option value="approved" <%if(booking.get("status")=="approved"){%>selected="selected"<%}%>>Approved</option>
+<option value="pending" <%if(booking.get("status")=="pending"){%>selected="selected"<%}%>>Pending</option>
+<option value="rejected" <%if(booking.get("status")=="rejected"){%>selected="selected"<%}%>>Rejected</option>
+</select></p>
+<button id="save">Save</button>
+<%}%>
+
+<script>
+	$( "#startDate" ).datepicker();
+	$( "#endDate" ).datepicker();
+	<%if(booking){%>
+		$( "#startDate" ).datepicker( "setDate", new Date("<%=booking.get("startDate")%>") );
+		$( "#endDate" ).datepicker( "setDate", new Date("<%=booking.get("endDate")%>") );
+	<%}%>
+
+
+</script>

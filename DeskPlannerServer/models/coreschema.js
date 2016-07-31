@@ -16,8 +16,7 @@ Person.set('toJSON', {
 });
 
 var Desk = new Schema({
-	building: String,
-	room: String,
+	list: String,
 	bay: String,
 	desk: String
 });

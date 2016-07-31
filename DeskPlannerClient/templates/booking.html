@@ -1,5 +1,17 @@
-<h4><%=booking.get("personId")-<%=booking.get("deskId") %></h4> 
+<h4>Booking <%=booking.get("id") %></h4> 
 
-<p>Start: <%=booking.get("status") %></p>
-<p>End: <%=booking.get("manager") %></p>
-<p>Status: <%=booking.get("contact") %></p>
+<p>Status: <%=booking.get("status") %></p>
+<p>Person: 
+<%if(app.personList.get(booking.get("personId"))){%>
+<%="<a href='./#/person/"+booking.get("personId")+"'>"+app.personList.get(booking.get("personId")).get("name")+"</a>"%>
+<%}else{%>
+<%=booking.get("personId")%>
+<%}%>
+<p>Desk: 
+<%if(app.deskList.get(booking.get("deskId"))){%>
+<%="<a href='./#/desk/"+booking.get("deskId")+"'>"+app.deskList.get(booking.get("deskId")).get("list")+app.deskList.get(booking.get("deskId")).get("bay")+app.deskList.get(booking.get("deskId")).get("desk")+"</a>"%>
+<%}else{%>
+<%=person.get("manager")%>
+<%}%>
+<p>Start Date: <%=booking.get("startDate") %></p>
+<p>End Date: <%=booking.get("endDate") %></p>
