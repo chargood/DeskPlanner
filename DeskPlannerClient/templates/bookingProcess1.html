@@ -1,0 +1,12 @@
+<h4>Make a Desk Booking Stage 1/3</h4> 
+<p>Who is this desk for?</p>
+
+<p>A new person: <button id="newperson">New Person</button></p>
+
+<p>An existing person: <select id="personId"> 
+<%app.personList.each(function(person){%>
+	<%= "<option value='"+person.get("id")+"'>"+person.get("name")+"</option>"%>
+<%})%>
+</select></p>
+<button id="save1">next</button>
+

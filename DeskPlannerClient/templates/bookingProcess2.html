@@ -1,0 +1,15 @@
+<h4>Make a Desk Booking Stage 2/3</h4> 
+<p>What period are they here for?</p>
+
+<p>Start Date: <div id="startDate" /></p>
+<p>End Date: <div id="endDate" /></p>
+
+<div id="bookingerror" title="Booking Error">This Booking is invalid. You must provide start and end dates, and the start date must be after the end date.</div>
+
+<script>
+	$( "#bookingerror" ).dialog({ autoOpen: false });
+	$( "#startDate" ).datepicker();
+	$( "#endDate" ).datepicker();
+</script>
+
+<button id="save2">Next</button>
