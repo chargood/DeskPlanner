@@ -56,7 +56,8 @@ var Booking = new Schema({
 	deskId: String,
 	startDate: Date,
 	endDate: Date,
-	status: String
+	status: String,
+	notes: String
 });
 Booking.virtual('id').get(function(){
     return this._id.toHexString();

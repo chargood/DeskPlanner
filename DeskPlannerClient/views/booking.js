@@ -57,7 +57,7 @@ window.BookingListItemView = Backbone.View.extend({
 	delete:function(){
 		this.model.destroy({
             success:function () {
-                alert('Booking deleted successfully');
+                console.log('Booking deleted successfully');
             }
         });
         return false;
@@ -115,6 +115,7 @@ var BookingEditView = Backbone.View.extend({
 			startDate:$('#startDate').datepicker( "getDate" ),
 			endDate:$('#endDate').datepicker( "getDate" ),
 			status:$('#status').val(),
+			notes:$('#notes').val()
 		}
 		
 		this.model.set(bookingDetails)
@@ -170,6 +171,7 @@ var BookingCreateView = Backbone.View.extend({
 			startDate:$('#startDate').datepicker( "getDate" ),
 			endDate:$('#endDate').datepicker( "getDate" ),
 			status:"pending",
+			notes:$('#notes').val()
 		}
 		
 		this.model.set(bookingDetails)
@@ -191,4 +193,137 @@ var BookingCreateView = Backbone.View.extend({
 		}
 	}
 
+});
+
+var BookingProcessView = Backbone.View.extend({
+	events:{
+		'click #save1': 'save1',
+		'click #save2': 'save2',
+		'click #save3': 'save3',
+		'click #newperson': 'newperson',
+		'click #save': 'saveperson'
+    },
+	
+	
+	initialize:function () {
+		
+		if(!this.model.get("personId")){
+			this.stage=1
+		}
+		else if(!this.model.get("startDate")){
+			this.stage=2
+		}
+		else{
+			this.stage=3
+		}
+	
+		console.log("MB1", this.model, this.stage)
+		this.template1 = _.template(tpl.get('bookingProcess1'));
+		this.template2 = _.template(tpl.get('bookingProcess2'));
+		this.template3 = _.template(tpl.get('bookingProcess3'));
+	},
+	
+	render:function (eventName) {		
+		
+		console.log("MB2", this.model, this.stage)
+		
+		if(this.stage==1){
+			$(this.el).html(this.template1({booking:false}));
+			return this;
+		}
+		else if(this.stage==2){
+			$(this.el).html(this.template2({booking:false}));
+			return this;
+		}		
+		else if(this.stage==3){
+			$(this.el).html(this.template3({booking:false}));
+			return this;
+		}
+	},
+	
+	newperson:function (eventName) {
+		this.template = _.template(tpl.get('personEdit'));
+		var that = this
+		
+		this.model = new Person();
+		
+		$(that.el).html(that.template({person:false}));
+		return that;
+	},
+	
+	saveperson:function (eventName) {
+	
+		var personDetails = {
+			name:$('#name').val(),
+			status:$('#status').val(),
+			manager:$('#manager').val(),
+			contact:$('#contact').val(),
+			notes:$('#notes').val(),
+		}
+		
+		this.model.save(personDetails,{
+			success: function (person){
+				console.log("person saved")
+				var bookingDetails = {
+					personId:person.id,
+				}
+							
+				app.makeBooking(bookingDetails);
+			},
+			error: function(model, response) {
+				console.log("person error")
+				console.log(response);
+			}
+		});	
+	},
+	
+
+	
+	save1:function (eventName) {
+		var that=this
+	
+		var bookingDetails = {
+			personId:$('#personId').val(),
+		}
+		
+		this.model.set(bookingDetails)
+		console.log("model",this.model.toJSON())
+		app.makeBooking(bookingDetails);	
+	},
+	
+	save2:function (eventName) {
+		var that=this
+	
+		var bookingDetails = {
+			startDate:$('#startDate').datepicker( "getDate" ),
+			endDate:$('#endDate').datepicker( "getDate" ),
+		}
+		
+		this.model.set(bookingDetails)
+		console.log("model",this.model.toJSON())
+		app.makeBooking(this.model.attributes);	
+	},
+	
+	save3:function (eventName) {
+		var that=this
+	
+		var bookingDetails = {
+			notes:$('#notes').val(),
+			status:"pending"
+		}
+		
+		this.model.set(bookingDetails)
+		console.log("model",this.model.toJSON())
+		
+		this.model.save(bookingDetails,{
+			success: function (booking){
+				console.log("booking saved 3")
+				app.navigate('', {trigger:true});
+			},
+			error: function(model, response) {
+				console.log("booking error")
+				console.log(response);
+			}
+		});	
+	}	
 });

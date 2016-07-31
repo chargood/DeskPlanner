@@ -50,7 +50,7 @@ router.get('/', function(req, res) {
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Person created!' });
+            res.json(person);
         });
         
     })
@@ -101,6 +101,8 @@ router.get('/', function(req, res) {
 					res.json({ message: 'Successfully deleted' });
 				});
 			}
+			else
+				res.json({ message: 'No Person by that ID' });
 
         });
 		
@@ -172,6 +174,8 @@ router.get('/', function(req, res) {
 					res.json({ message: 'Successfully deleted' });
 				});
 			}
+			else
+				res.json({ message: 'No Desk by that ID' });
 
         });
 		
@@ -243,6 +247,8 @@ router.get('/', function(req, res) {
 					res.json({ message: 'Successfully deleted' });
 				});
 			}
+			else
+				res.json({ message: 'No DeskMap by that ID' });
 
         });
 		
@@ -260,8 +266,7 @@ router.get('/', function(req, res) {
         booking.save(function(err) {
             if (err)
                 res.send(err);
-
-            res.json({ message: 'Booking created!' });
+            res.json(booking);
         });
         
     })
@@ -314,6 +319,8 @@ router.get('/', function(req, res) {
 					res.json({ message: 'Successfully deleted' });
 				});
 			}
+			else
+				res.json({ message: 'No Booking by that ID' });
 
         });
 		

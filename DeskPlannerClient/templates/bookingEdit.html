@@ -12,6 +12,7 @@
 </select></p>
 <p>Start Date: <div id="startDate" /></p>
 <p>End Date: <div id="endDate" /></p>
+<p>Notes: <input type="text" id="notes"></p>
 <button id="save">Save</button>
 <%}else{%>
 <h4>Editing Booking <%=booking.get("id") %></h4> 
@@ -41,6 +42,7 @@
 <option value="pending" <%if(booking.get("status")=="pending"){%>selected="selected"<%}%>>Pending</option>
 <option value="rejected" <%if(booking.get("status")=="rejected"){%>selected="selected"<%}%>>Rejected</option>
 </select></p>
+<p>Notes: <input type="text" id="notes" value="<%=booking.get("notes") %>"></p>
 <button id="save">Save</button>
 <%}%>
 

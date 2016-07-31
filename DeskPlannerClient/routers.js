@@ -27,6 +27,7 @@ var AppRouter = Backbone.Router.extend({
 		'editbooking/:id':'editBooking',
 		'createbooking':'createBooking',
 		'bookinglist':'viewBookingList',
+		'makebooking':'makeBooking',
 		'deskmap/:id':'viewDeskMap',
 		'deskmap':'viewDeskMapList'
 	},
@@ -38,6 +39,7 @@ var AppRouter = Backbone.Router.extend({
 	
 	home:function(){
 		console.log('Home Route');
+		bookingStage=0
 		this.before(function () {
             app.showView('#page', new HomeView());
         });
@@ -133,6 +135,18 @@ var AppRouter = Backbone.Router.extend({
             app.showView('#page', new BookingListView({model:app.bookingList}));
         });
 	},
+	
+	makeBooking:function(b){
+		console.log('Make Booking');
+		this.before(function () {
+			var booking = new Booking();
+			if(b){
+				booking.set(b)
+			}
+			console.log("TEST",b, booking)
+            app.showView('#page', new BookingProcessView({model:booking}));
+        });
+	},
 
 	viewDeskMap:function(id){
 		console.log('View DeskMap Route');
@@ -177,7 +191,7 @@ var AppRouter = Backbone.Router.extend({
 
 });
 
-tpl.loadTemplates(['home','person','personListItem','personEdit','desk','deskListItem','deskEdit','booking','bookingListItem','bookingEdit','deskmap','deskmapListItem','deskmapEdit'], function () {
+tpl.loadTemplates(['home','person','personListItem','personEdit','desk','deskListItem','deskEdit','booking','bookingListItem','bookingEdit','deskmap','deskmapListItem','deskmapEdit','bookingProcess1','bookingProcess2','bookingProcess3'], function () {
     app = new AppRouter();
     Backbone.history.start();
 });

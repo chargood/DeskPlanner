@@ -57,7 +57,7 @@ window.PersonListItemView = Backbone.View.extend({
 	delete:function(){
 		this.model.destroy({
             success:function () {
-                alert('Person deleted successfully');
+                console.log('Person deleted successfully');
             }
         });
         return false;
@@ -164,16 +164,15 @@ var PersonCreateView = Backbone.View.extend({
 		}
 		
 		this.model.save(personDetails,{
-			success: function (reading){
-				console.log("person saved")						
-				 app.navigate('personlist', {trigger:true});
+			success: function (person){
+				console.log("person saved")
+				app.navigate('personlist', {trigger:true});
 			},
 			error: function(model, response) {
-				console.log("reading error")
+				console.log("person error")
 				console.log(response);
 			}
-		});
-	
+		});	
 	}
 
 });

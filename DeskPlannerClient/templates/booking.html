@@ -11,7 +11,8 @@
 <%if(app.deskList.get(booking.get("deskId"))){%>
 <%="<a href='./#/desk/"+booking.get("deskId")+"'>"+app.deskList.get(booking.get("deskId")).get("list")+app.deskList.get(booking.get("deskId")).get("bay")+app.deskList.get(booking.get("deskId")).get("desk")+"</a>"%>
 <%}else{%>
-<%=person.get("manager")%>
+<%=booking.get("deskId")%>
 <%}%>
 <p>Start Date: <%=booking.get("startDate") %></p>
 <p>End Date: <%=booking.get("endDate") %></p>
+<p>Notes: <%=booking.get("notes") %></p>

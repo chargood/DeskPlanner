@@ -57,7 +57,7 @@ window.DeskMapListItemView = Backbone.View.extend({
 	delete:function(){
 		this.model.destroy({
             success:function () {
-                alert('DeskMap deleted successfully');
+                console.log('DeskMap deleted successfully');
             }
         });
         return false;
