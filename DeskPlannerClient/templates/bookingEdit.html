@@ -44,7 +44,11 @@
 <button id="save">Save</button>
 <%}%>
 
+<div id="bookingerror" title="Booking Error">This Booking is invalid. Either the end date is before the start date, or it clashes with another booking using this desk at this time.</div>
+
 <script>
+	$( "#bookingerror" ).dialog({ autoOpen: false });
+	
 	$( "#startDate" ).datepicker();
 	$( "#endDate" ).datepicker();
 	<%if(booking){%>

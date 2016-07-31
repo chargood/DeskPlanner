@@ -117,16 +117,23 @@ var BookingEditView = Backbone.View.extend({
 			status:$('#status').val(),
 		}
 		
-		this.model.save(bookingDetails,{
-			success: function (reading){
-				console.log("booking saved")						
-				app.navigate('bookinglist', {trigger:true});
-			},
-			error: function(model, response) {
-				console.log("reading error")
-				console.log(response);
-			}
-		});
+		this.model.set(bookingDetails)
+		
+		if(that.model.bookingValidate()){
+			this.model.save(bookingDetails,{
+				success: function (booking){
+					console.log("booking saved")						
+					app.navigate('bookinglist', {trigger:true});
+				},
+				error: function(model, response) {
+					console.log("booking error")
+					console.log(response);
+				}
+			});
+		}
+		else{
+			$( "#bookingerror" ).dialog( "open" );
+		}
 	
 	}
 
@@ -155,6 +162,8 @@ var BookingCreateView = Backbone.View.extend({
 	
 	save:function (eventName) {
 	
+		var that=this
+	
 		var bookingDetails = {
 			personId:$('#personId').val(),
 			deskId:$('#deskId').val(),
@@ -163,17 +172,23 @@ var BookingCreateView = Backbone.View.extend({
 			status:"pending",
 		}
 		
-		this.model.save(bookingDetails,{
-			success: function (reading){
-				console.log("booking saved")						
-				 app.navigate('bookinglist', {trigger:true});
-			},
-			error: function(model, response) {
-				console.log("reading error")
-				console.log(response);
-			}
-		});
-	
+		this.model.set(bookingDetails)
+		
+		if(that.model.bookingValidate()){
+			this.model.save(bookingDetails,{
+				success: function (booking){
+					console.log("booking saved")						
+					app.navigate('bookinglist', {trigger:true});
+				},
+				error: function(model, response) {
+					console.log("booking error")
+					console.log(response);
+				}
+			});
+		}
+		else{
+			$( "#bookingerror" ).dialog( "open" );
+		}
 	}
 
 });

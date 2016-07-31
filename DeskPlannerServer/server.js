@@ -91,14 +91,16 @@ router.get('/', function(req, res) {
             if (err)
                 res.send(err);
 
-            person.remove({
-				_id: req.params.person_id
-			}, function(err, person) {
-				if (err)
-					res.send(err);
+			if(person){
+				person.remove({
+					_id: req.params.person_id
+				}, function(err, person) {
+					if (err)
+						res.send(err);
 
-				res.json({ message: 'Successfully deleted' });
-			});
+					res.json({ message: 'Successfully deleted' });
+				});
+			}
 
         });
 		
@@ -160,14 +162,16 @@ router.get('/', function(req, res) {
             if (err)
                 res.send(err);
 
-            desk.remove({
-				_id: req.params.person_id
-			}, function(err, desk) {
-				if (err)
-					res.send(err);
+			if(desk){
+				desk.remove({
+					_id: req.params.person_id
+				}, function(err, desk) {
+					if (err)
+						res.send(err);
 
-				res.json({ message: 'Successfully deleted' });
-			});
+					res.json({ message: 'Successfully deleted' });
+				});
+			}
 
         });
 		
@@ -229,14 +233,16 @@ router.get('/', function(req, res) {
             if (err)
                 res.send(err);
 
-            deskmap.remove({
-				_id: req.params.person_id
-			}, function(err, deskmap) {
-				if (err)
-					res.send(err);
+			if(deskmap){
+				deskmap.remove({
+					_id: req.params.person_id
+				}, function(err, deskmap) {
+					if (err)
+						res.send(err);
 
-				res.json({ message: 'Successfully deleted' });
-			});
+					res.json({ message: 'Successfully deleted' });
+				});
+			}
 
         });
 		
@@ -298,14 +304,16 @@ router.get('/', function(req, res) {
             if (err)
                 res.send(err);
 
-            booking.remove({
-				_id: req.params.person_id
-			}, function(err, booking) {
-				if (err)
-					res.send(err);
+			if(booking){
+				booking.remove({
+					_id: req.params.person_id
+				}, function(err, booking) {
+					if (err)
+						res.send(err);
 
-				res.json({ message: 'Successfully deleted' });
-			});
+					res.json({ message: 'Successfully deleted' });
+				});
+			}
 
         });
 		
