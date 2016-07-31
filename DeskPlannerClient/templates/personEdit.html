@@ -1,15 +1,15 @@
 <%if(person==false){%>
 <h4>Creating New Person</h4> 
-<p>Name: <input type="text" id="name"></p>
-<p>Status: <input type="text" id="status"></p>
+<p>*Name: <input type="text" id="name"> <i>Full first and last name</i></p>
+<p>*Status: <input type="text" id="status"> <i>Indicate whether this person is a Student, Staff, Visitor and Full or Part Time</i></p>
 <p>Manager/Supervisor: <select id="manager"> 
 <option value="none">none</option>
 <%app.personList.each(function(person){%>
 	<%= "<option value='"+person.get("id")+"'>"+person.get("name")+"</option>"%>
 <%})%>
-</select></p>
-<p>email: <input type="text" id="contact"></p>
-<p>Notes: <input type="text" id="notes"></p>
+</select><i>Please select this persons Manager or Primary Supervisor from the drop down list. If unknown or not there leave blank.</i></p>
+<p>email: <input type="text" id="contact"><i>The university email address on which they can be contacted</i></p>
+<p>Notes: <input type="text" id="notes"><i>Any other additional information about the person such as special needs, additional contact info, or source of funding</i></p>
 <button id="save">Save</button>
 <%}else{%>
 <h4>Editing <%=person.get("name") %></h4> 
@@ -30,3 +30,8 @@
 <button id="save">Save</button>
 <%}%>
 
+<div id="personerror" title="Booking Error">This Person is invalid. You must specify a name and status.</div>
+
+<script>
+	$( "#personerror" ).dialog({ autoOpen: false });
+<script>	

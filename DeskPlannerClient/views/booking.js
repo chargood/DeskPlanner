@@ -7,20 +7,29 @@ window.BookingListView = Backbone.View.extend({
     },
 	
 	initialize:function () {
+		var that = this;
 		this.model.bind("reset", this.render, this);
         var self = this;
         this.model.bind("add", function (booking) {
+			booking.mode=that.model.mode
             $(self.el).append(new BookingListItemView({model:booking}).render().el);
         });
 	},
 	
 	render:function (eventName) {
+		var that = this;
 		$(this.el).append("<h3>Booking List</h3>")
-		_.each(app.bookingList.models, function (booking) {
-			console.log("p",booking)
-			$(this.el).append(new BookingListItemView({model:booking}).render().el);
+		if(this.model.mode=="detail")
+			$(this.el).append("<tr><td colspan='4'><p>Filter Date: <div id='filterDate' /></p><script>$( '#filterDate' ).datepicker({onSelect: function(date){document.dispatchEvent(new Event('datepickerchange'));}});</script></td></tr>")
+		$(this.el).append("<tr><th>Desk</th><th>Person</th><th>End Date</th></tr>")
+		_.each(this.model.models, function (booking) {
+			if((!this.model.pendingFlag||booking.get("status")=="pending")&&(this.model.mode!="detail"||booking.get("status")=="approved")){
+				booking.mode=that.model.mode
+				$(this.el).append(new BookingListItemView({model:booking}).render().el);
+			}
 		}, this);
-		$(this.el).append("<button id='create'>Create</button>")
+		if(this.model.mode=="admin")
+			$(this.el).append("<button id='create'>Create</button>")
 		return this;				
 
 	},
@@ -39,10 +48,31 @@ window.BookingListItemView = Backbone.View.extend({
 		'click .delete': 'delete'
     },
 	
+	filterupdate:function(){
+		var fdate = $('#filterDate').datepicker("getDate")
+		
+		if(new Date(this.model.get("startDate"))<$('#filterDate').datepicker( "getDate" )&&new Date(this.model.get("endDate"))>$('#filterDate').datepicker( "getDate" ) ){
+			$(this.el).show()
+		}
+		else{
+			$(this.el).hide()
+		}
+		
+	},
+	
 	initialize:function () {
-        this.model.bind("change", this.render, this);
+        var that = this;
+		this.model.bind("change", this.render, this);
         this.model.bind("destroy", this.close, this);
 		this.template = _.template(tpl.get('bookingListItem'));
+		if(this.model.mode=="user")
+			this.template = _.template(tpl.get('bookingListItemUser'));
+		if(this.model.mode=="detail")
+			this.template = _.template(tpl.get('bookingListItemDetails'));
+			
+		document.addEventListener('datepickerchange', function (e) {
+			that.filterupdate();
+		}, false);
 	},
 	
 	render:function (eventName) {
@@ -109,6 +139,8 @@ var BookingEditView = Backbone.View.extend({
 	
 	save:function (eventName) {
 	
+		var that = this
+	
 		var bookingDetails = {
 			personId:$('#personId').val(),
 			deskId:$('#deskId').val(),
@@ -119,6 +151,9 @@ var BookingEditView = Backbone.View.extend({
 		}
 		
 		this.model.set(bookingDetails)
+		this.model=new Booking(this.model.attributes)
+		
+		console.log("vali",that.model)
 		
 		if(that.model.bookingValidate()){
 			this.model.save(bookingDetails,{
@@ -261,23 +296,26 @@ var BookingProcessView = Backbone.View.extend({
 			notes:$('#notes').val(),
 		}
 		
-		this.model.save(personDetails,{
-			success: function (person){
-				console.log("person saved")
-				var bookingDetails = {
-					personId:person.id,
+		if(personDetails.name&&personDetails.status){
+			this.model.save(personDetails,{
+				success: function (person){
+					console.log("person saved")
+					var bookingDetails = {
+						personId:person.id,
+					}
+								
+					app.makeBooking(bookingDetails);
+				},
+				error: function(model, response) {
+					console.log("person error")
+					console.log(response);
 				}
-							
-				app.makeBooking(bookingDetails);
-			},
-			error: function(model, response) {
-				console.log("person error")
-				console.log(response);
-			}
-		});	
+			});
+		}else{
+			$( "#personerror" ).dialog( "open" );
+		}
 	},
 	
-
 	
 	save1:function (eventName) {
 		var that=this
@@ -299,9 +337,13 @@ var BookingProcessView = Backbone.View.extend({
 			endDate:$('#endDate').datepicker( "getDate" ),
 		}
 		
-		this.model.set(bookingDetails)
-		console.log("model",this.model.toJSON())
-		app.makeBooking(this.model.attributes);	
+		if(bookingDetails.startDate&&bookingDetails.endDate&&new Date(bookingDetails.startDate)<new Date(bookingDetails.endDate)){
+			this.model.set(bookingDetails)
+			console.log("model",this.model.toJSON())
+			app.makeBooking(this.model.attributes);
+		}else{
+			$( "#bookingerror" ).dialog( "open" );
+		}
 	},
 	
 	save3:function (eventName) {

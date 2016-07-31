@@ -8,3 +8,14 @@ window.HomeView = Backbone.View.extend({
 		return this;
 	}
 })
+
+window.AdminHomeView = Backbone.View.extend({
+	initialize:function () {
+		this.template = _.template(tpl.get('adminhome'));
+	},
+	
+	render:function (eventName) {
+		$(this.el).html(this.template());
+		return this;
+	}
+})

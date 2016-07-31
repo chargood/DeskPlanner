@@ -15,6 +15,7 @@ var AppRouter = Backbone.Router.extend({
 
     routes:{
 		'':'home',
+		'admin':'admin',
 		'person/:id':'viewPerson',
 		'editperson/:id':'editPerson',
 		'createperson':'createPerson',
@@ -27,21 +28,27 @@ var AppRouter = Backbone.Router.extend({
 		'editbooking/:id':'editBooking',
 		'createbooking':'createBooking',
 		'bookinglist':'viewBookingList',
+		'pendingbookinglist/:mode':'viewPendingBookingList',
+		'detailbookinglist':'viewDetailBookingList',
 		'makebooking':'makeBooking',
 		'deskmap/:id':'viewDeskMap',
 		'deskmap':'viewDeskMapList'
 	},
 
-    list:function () {
-        this.before();
-    },
-	
 	
 	home:function(){
 		console.log('Home Route');
 		bookingStage=0
 		this.before(function () {
             app.showView('#page', new HomeView());
+        });
+	},
+	
+	admin:function(){
+		console.log('Admin Home Route');
+		bookingStage=0
+		this.before(function () {
+            app.showView('#page', new AdminHomeView());
         });
 	},
 
@@ -136,6 +143,25 @@ var AppRouter = Backbone.Router.extend({
         });
 	},
 	
+	viewPendingBookingList:function(mode){
+		console.log('View Pending Booking List Route');
+		this.before(function () {
+			var list = app.bookingList
+			list.pendingFlag=true
+			list.mode=mode
+            app.showView('#page', new BookingListView({model:list}));
+        });
+	},
+	
+	viewDetailBookingList:function(mode){
+		console.log('View Detail Booking List Route');
+		this.before(function () {
+			var list = app.bookingList
+			list.mode="detail"
+            app.showView('#page', new BookingListView({model:list}));
+        });
+	},
+	
 	makeBooking:function(b){
 		console.log('Make Booking');
 		this.before(function () {
@@ -159,7 +185,6 @@ var AppRouter = Backbone.Router.extend({
     showView:function (selector, view) {
         if (this.currentView)
             this.currentView.close();
-		console.log(view)
         $(selector).html(view.render().el);
         this.currentView = view;
         return view;
@@ -191,7 +216,7 @@ var AppRouter = Backbone.Router.extend({
 
 });
 
-tpl.loadTemplates(['home','person','personListItem','personEdit','desk','deskListItem','deskEdit','booking','bookingListItem','bookingEdit','deskmap','deskmapListItem','deskmapEdit','bookingProcess1','bookingProcess2','bookingProcess3'], function () {
+tpl.loadTemplates(['home','adminhome','person','personListItem','personEdit','desk','deskListItem','deskEdit','booking','bookingListItem','bookingListItemUser','bookingListItemDetails', 'bookingEdit','deskmap','deskmapListItem','deskmapEdit','bookingProcess1','bookingProcess2','bookingProcess3'], function () {
     app = new AppRouter();
     Backbone.history.start();
 });
