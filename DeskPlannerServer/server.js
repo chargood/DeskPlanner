@@ -327,6 +327,79 @@ router.get('/', function(req, res) {
 		
     });
 	
+	////////
+	
+	router.route('/deskpool')
+	
+	.post(function(req, res) {
+        
+		var deskpool = new CoreSchema.DeskPool(req.body)
+        
+        deskpool.save(function(err) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'DeskPool created!' });
+        });
+        
+    })
+	
+	.get(function(req, res) {
+        CoreSchema.DeskPool.find(function(err, deskpools) {
+            if (err)
+                res.send(err);
+
+            res.json(deskpools);
+        });
+    });
+	
+	router.route('/deskpool/:deskpool_id')
+	
+	.get(function(req, res) {
+        CoreSchema.DeskPool.findById(req.params.deskpool_id, function(err, deskpool) {
+            if (err)
+                res.send(err);
+            res.json(deskpool);
+        });
+    })
+	
+	.put(function(req, res) {
+
+        CoreSchema.DeskPool.update({'_id':req.params.deskpool_id}, req.body, function(err, deskpool) {
+
+            if (err)
+                res.send(err);
+	
+			res.json(deskpool);
+
+        });
+    })
+	
+	.delete(function(req, res) {
+        
+		CoreSchema.DeskPool.findById(req.params.deskpool_id, function(err, deskpool) {
+
+            if (err)
+                res.send(err);
+
+			if(deskpool){
+				deskpool.remove({
+					_id: req.params.person_id
+				}, function(err, deskpool) {
+					if (err)
+						res.send(err);
+
+					res.json({ message: 'Successfully deleted' });
+				});
+			}
+			else
+				res.json({ message: 'No DeskPool by that ID' });
+
+        });
+		
+		
+    });
+	
 	
 
 

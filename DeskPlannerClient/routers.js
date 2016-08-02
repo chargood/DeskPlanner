@@ -31,8 +31,14 @@ var AppRouter = Backbone.Router.extend({
 		'pendingbookinglist/:mode':'viewPendingBookingList',
 		'detailbookinglist':'viewDetailBookingList',
 		'makebooking':'makeBooking',
-		'deskmap/:id':'viewDeskMap',
-		'deskmap':'viewDeskMapList'
+		'deskpool/:id':'viewDeskMap',
+		'deskpoollist':'viewDeskMapList',
+		'editdeskpool/:id':'editDeskMap',
+		'createdeskpool':'createDeskMap',		
+		'deskpool/:id':'viewDeskPool',
+		'deskpoollist':'viewDeskPoolList',
+		'editdeskpool/:id':'editDeskPool',
+		'createdeskpool':'createDeskPool'
 	},
 
 	
@@ -181,6 +187,30 @@ var AppRouter = Backbone.Router.extend({
 	viewDeskMapList:function(){
 		console.log('View DeskMap List Route');
 	},
+	
+	editDeskMap:function(id){
+		console.log('Edit DeskMap Route');
+	},
+
+	createDeskMap:function(){
+		console.log('Create DeskMap Route');
+	},
+	
+	viewDeskPool:function(id){
+		console.log('View DeskPool Route');
+	},
+
+	viewDeskPoolList:function(){
+		console.log('View DeskPool List Route');
+	},
+	
+	editDeskPool:function(id){
+		console.log('Edit DeskPool Route');
+	},
+
+	createDeskPool:function(){
+		console.log('Create DeskPool Route');
+	},
 
     showView:function (selector, view) {
         if (this.currentView)
@@ -216,7 +246,7 @@ var AppRouter = Backbone.Router.extend({
 
 });
 
-tpl.loadTemplates(['home','adminhome','person','personListItem','personEdit','desk','deskListItem','deskEdit','booking','bookingListItem','bookingListItemUser','bookingListItemDetails', 'bookingEdit','deskmap','deskmapListItem','deskmapEdit','bookingProcess1','bookingProcess2','bookingProcess3'], function () {
+tpl.loadTemplates(['home','adminhome','person','personListItem','personEdit','desk','deskListItem','deskEdit','booking','bookingListItem','bookingListItemUser','bookingListItemDetails', 'bookingEdit','deskpool','deskpoolListItem','deskpoolEdit','deskpool','deskpoolListItem','deskpoolEdit','bookingProcess1','bookingProcess2','bookingProcess3'], function () {
     app = new AppRouter();
     Backbone.history.start();
 });

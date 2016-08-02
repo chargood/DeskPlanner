@@ -1,4 +1,4 @@
-window.DeskListView = Backbone.View.extend({
+window.DeskPoolListView = Backbone.View.extend({
 
 	tagName:'table',
 	
@@ -9,16 +9,16 @@ window.DeskListView = Backbone.View.extend({
 	initialize:function () {
 		this.model.bind("reset", this.render, this);
         var self = this;
-        this.model.bind("add", function (desk) {
-            $(self.el).append(new DeskListItemView({model:desk}).render().el);
+        this.model.bind("add", function (deskpool) {
+            $(self.el).append(new DeskPoolListItemView({model:deskpool}).render().el);
         });
 	},
 	
 	render:function (eventName) {
-		$(this.el).append("<h3>Desk List</h3>")
-		_.each(app.deskList.models, function (desk) {
-			console.log("p",desk)
-			$(this.el).append(new DeskListItemView({model:desk}).render().el);
+		$(this.el).append("<h3>DeskPool List</h3>")
+		_.each(app.deskpoolList.models, function (deskpool) {
+			console.log("p",deskpool)
+			$(this.el).append(new DeskPoolListItemView({model:deskpool}).render().el);
 		}, this);
 		$(this.el).append("<button id='create'>Create</button>")
 		return this;				
@@ -26,11 +26,11 @@ window.DeskListView = Backbone.View.extend({
 	},
 	
 	create:function (){
-		app.navigate('createdesk', {trigger:true});
+		app.navigate('createdeskpool', {trigger:true});
 	},
 });
 
-window.DeskListItemView = Backbone.View.extend({
+window.DeskPoolListItemView = Backbone.View.extend({
 
 	tagName:'tr',
 	
@@ -42,7 +42,7 @@ window.DeskListItemView = Backbone.View.extend({
 	initialize:function () {
         this.model.bind("change", this.render, this);
         this.model.bind("destroy", this.close, this);
-		this.template = _.template(tpl.get('deskListItem'));
+		this.template = _.template(tpl.get('deskpoolListItem'));
 	},
 	
 	render:function (eventName) {
@@ -51,13 +51,13 @@ window.DeskListItemView = Backbone.View.extend({
 	},
 	
 	edit:function (){
-		app.navigate('editdesk/' + this.model.toJSON().id, {trigger:true});
+		app.navigate('editdeskpool/' + this.model.toJSON().id, {trigger:true});
 	},
 	
 	delete:function(){
 		this.model.destroy({
             success:function () {
-                console.log('Desk deleted successfully');
+                console.log('DeskPool deleted successfully');
             }
         });
         return false;
@@ -65,7 +65,7 @@ window.DeskListItemView = Backbone.View.extend({
 
 });
 
-window.DeskView = Backbone.View.extend({
+window.DeskPoolView = Backbone.View.extend({
 	
 	events:{
     },
@@ -76,11 +76,11 @@ window.DeskView = Backbone.View.extend({
 	
 	render:function (eventName) {
 		
-		this.template = _.template(tpl.get('desk'));
+		this.template = _.template(tpl.get('deskpool'));
 		
 		var that = this
 
-		$(that.el).html(that.template({desk:this.model}));
+		$(that.el).html(that.template({deskpool:this.model}));
 		return that;				
 
 
@@ -88,14 +88,14 @@ window.DeskView = Backbone.View.extend({
 
 });
 
-var DeskEditView = Backbone.View.extend({
+var DeskPoolEditView = Backbone.View.extend({
 	
 	events:{
 		'click #save': 'save'
     },
 	
 	initialize:function () {
-		this.template = _.template(tpl.get('deskEdit'));
+		this.template = _.template(tpl.get('deskpoolEdit'));
         this.model.bind("change", this.render, this);
 	},
 	
@@ -103,23 +103,20 @@ var DeskEditView = Backbone.View.extend({
 		
 		var that = this
 
-		$(that.el).html(that.template({desk:this.model}));
+		$(that.el).html(that.template({deskpool:this.model}));
 		return that;
 	},
 	
 	save:function (eventName) {
 	
-		var deskDetails = {
-			list:$('#list').val(),
-			bay:$('#bay').val(),
-			desk:$('#desk').val(),
-			notes:$('#notes').val()
+		var deskpoolDetails = {
+			
 		}
 		
-		this.model.save(deskDetails,{
+		this.model.save(deskpoolDetails,{
 			success: function (reading){
-				console.log("desk saved")						
-				app.navigate('desklist', {trigger:true});
+				console.log("deskpool saved")						
+				app.navigate('deskpoollist', {trigger:true});
 			},
 			error: function(model, response) {
 				console.log("reading error")
@@ -131,22 +128,22 @@ var DeskEditView = Backbone.View.extend({
 
 });
 
-var DeskCreateView = Backbone.View.extend({
+var DeskPoolCreateView = Backbone.View.extend({
 	
 	events:{
 		'click #save': 'save'
     },
 	
 	initialize:function () {
-		this.template = _.template(tpl.get('deskEdit'));
+		this.template = _.template(tpl.get('deskpoolEdit'));
 	},
 	
 	render:function (eventName) {		
 		var that = this
 		
-		this.model = new Desk();
+		this.model = new DeskPool();
 		
-		$(that.el).html(that.template({desk:false}));
+		$(that.el).html(that.template({deskpool:false}));
 		return that;				
 		
 
@@ -154,17 +151,14 @@ var DeskCreateView = Backbone.View.extend({
 	
 	save:function (eventName) {
 	
-		var deskDetails = {
-			list:$('#list').val(),
-			bay:$('#bay').val(),
-			desk:$('#desk').val(),
-			notes:$('#notes').val()
+		var deskpoolDetails = {
+			
 		}
 		
-		this.model.save(deskDetails,{
+		this.model.save(deskpoolDetails,{
 			success: function (reading){
-				console.log("desk saved")						
-				 app.navigate('desklist', {trigger:true});
+				console.log("deskpool saved")						
+				 app.navigate('deskpoollist', {trigger:true});
 			},
 			error: function(model, response) {
 				console.log("reading error")

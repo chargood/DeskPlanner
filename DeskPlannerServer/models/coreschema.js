@@ -18,7 +18,20 @@ Person.set('toJSON', {
 var Desk = new Schema({
 	list: String,
 	bay: String,
-	desk: String
+	desk: String,
+	notes: String
+});
+Desk.virtual('id').get(function(){
+    return this._id.toHexString();
+});
+Desk.set('toJSON', {
+    virtuals: true
+});
+
+var DeskPool = new Schema({
+	name: String,
+	deskIds: [String],
+	notes: String,
 });
 Desk.virtual('id').get(function(){
     return this._id.toHexString();
@@ -54,6 +67,7 @@ DeskMapping.set('toJSON', {
 var Booking = new Schema({
 	personId: String,
 	deskId: String,
+	bookingType: String,
 	startDate: Date,
 	endDate: Date,
 	status: String,
@@ -72,6 +86,7 @@ module.exports = {
 	Desk: mongoose.model('Desk', Desk),
 	DeskMap: mongoose.model('DeskMap', DeskMap),
 	DeskMapping: mongoose.model('DeskMapping', DeskMapping),
-	Booking: mongoose.model('Booking', Booking)
+	Booking: mongoose.model('Booking', Booking),
+	DeskPool: mongoose.model('DeskPool', DeskPool)
 }
 

@@ -3,12 +3,14 @@
 <p>Desk List: <input type="text" id="list"></p>
 <p>Bay: <input type="text" id="bay"></p>
 <p>Desk: <input type="text" id="desk"></p>
+<p>Notes: <input type="text" id="notes"></p>
 <button id="save">Save</button>
 <%}else{%>
 <h4>Editing Desk <%=desk.get("list") %>-<%=desk.get("bay") %>-<%=desk.get("desk") %></h4> 
 <p>Desk List: <input type="text" id="list" value="<%=desk.get("list") %>"></p>
 <p>Bay: <input type="text" id="bay" value="<%=desk.get("bay") %>"></p>
 <p>Desk: <input type="text" id="desk" value="<%=desk.get("desk") %>"></p>
+<p>Notes: <input type="text" id="notes" value="<%=desk.get("notes") %>"></p>
 <button id="save">Save</button>
 <%}%>
 
